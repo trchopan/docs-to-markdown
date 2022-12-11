@@ -27,6 +27,7 @@ fn main() {
         })
         .collect::<Vec<String>>()
         .join("\n");
+
     println!("{}", result);
 }
 
@@ -38,7 +39,7 @@ fn handle_node(node: Node) -> Option<String> {
         "p" => Some(
             node.children()
                 .into_iter()
-                .map(|c| handle_span(c))
+                .map(handle_span)
                 .collect::<Vec<String>>()
                 .join(""),
         ),
@@ -49,10 +50,7 @@ fn handle_node(node: Node) -> Option<String> {
                 .collect::<Vec<String>>()
                 .join("\n"),
         ),
-        "table" => {
-            let table_str = handle_table(node);
-            Some(format!("{}", table_str))
-        }
+        "table" => Some(handle_table(node)),
         _ => None,
     }
 }
@@ -75,18 +73,17 @@ fn handle_span(node: Node) -> String {
 fn handle_table(table: Node) -> String {
     let mut table_md = String::new();
     table.find(Name("tr")).enumerate().for_each(|(i, row)| {
-        table_md.push_str("|");
+        table_md.push('|');
         let mut child_len = 0;
         row.children().enumerate().for_each(|(j, col)| {
             let text = col
                 .first_child()
-                .map(handle_node)
-                .flatten()
+                .and_then(handle_node)
                 .map_or("".to_string(), |s| s + "|");
             table_md.push_str(&text);
             child_len = j + 1;
         });
-        table_md.push_str("\n");
+        table_md.push('\n');
         if i == 0 {
             let header_sep = format!("|{}\n", "-|".repeat(child_len));
             table_md.push_str(&header_sep);
@@ -94,3 +91,4 @@ fn handle_table(table: Node) -> String {
     });
     table_md
 }
+
