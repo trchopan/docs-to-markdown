@@ -1,20 +1,30 @@
+use clap::Parser;
+use regex::Regex;
 use select::document::Document;
 use select::node::Node;
 use select::predicate::{Class, Name};
 
+#[derive(Parser, Debug)]
+#[clap(author, version, about, long_about = None)]
+struct Args {
+    /// Google Docs published page
+    #[clap(long, value_parser)]
+    doc: String,
+}
+
 fn main() {
-    let response = reqwest::blocking::get(
-        "https://docs.google.com/document/d/e/2PACX-1vSYY2NUDdjuH-Ry8Vcuvsp50IV_Vi2E_3vE4oqfaKYVRbqJdf1jO_dd06jtOZPFp2tHs_v2v5TBhEzd/pub",
-    )
-    .unwrap()
-    .text()
-    .unwrap();
+    let args = Args::parse();
+
+    let response = reqwest::blocking::get(args.doc)
+        .expect("Cannot get the docs. Please check docs link.")
+        .text()
+        .expect("Cannot extract the docs body text.");
 
     let document = Document::from(response.as_str());
     let found_content = document
         .find(Class("doc-content"))
         .next()
-        .expect("not found doc-content");
+        .expect("Not found doc-content. Please check that the link is for a Google Docs published to the Web page.");
 
     let result = found_content
         .children()
@@ -43,7 +53,6 @@ fn handle_node(node: Node) -> Option<String> {
                 .collect::<Vec<String>>()
                 .join(""),
         ),
-        "span" => Some(handle_span(node)),
         "ul" => Some(
             node.children()
                 .map(|c| format!("- {}", c.text()))
@@ -61,7 +70,14 @@ fn handle_span(node: Node) -> String {
         .map(|inner| {
             let Some(inner_name) = inner.name() else { return node.text(); };
             match inner_name {
-                "a" => format!("[{}]({})", inner.text(), inner.attr("href").unwrap()),
+                "a" => {
+                    let Some(href) = inner.attr("href") else { return "".to_string();};
+                    // Remove Google redirect link
+                    let extract_link_regex =
+                        Regex::new(r"(?m)https://www\.google\.com/url\?q=(.*?)&sa.*$").unwrap();
+                    let href = extract_link_regex.replace_all(href, "$1");
+                    return format!("[{}]({})", inner.text(), href);
+                }
                 "img" => format!("![]({})", inner.attr("src").unwrap()),
                 _ => inner.text(),
             }
@@ -91,4 +107,3 @@ fn handle_table(table: Node) -> String {
     });
     table_md
 }
-

@@ -1,10 +1,20 @@
 [package]
 name = "docs_to_markdown"
 version = "0.1.0"
+authors = ["Chop Tr <m@chop.dev>"]
+homepage = "https://github.com/trchopan/docs-to-markdown"
+repository = "https://github.com/trchopan/docs-to-markdown.git"
+documentation = "https://docs.rs/docs-to-markdown"
+description = "Tool to convert Google Docs to Markdown"
+keywords = ["google docs", "markdown", "convert"]
+categories = ["development-tools"]
+license = "MIT"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+clap = { version = "4.0.29", features = ["derive"] }
+regex = "1.7.0"
 reqwest = {version = "0.11.13", features = ["blocking"]}
 select = "0.6.0"
