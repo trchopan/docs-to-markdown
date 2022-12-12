@@ -1,4 +1,4 @@
-![](https://lh4.googleusercontent.com/Tx09_Zv4cHk1SIThLQnoJpw7Ie8mL783_Y4x8l6zKMr2xihjLsqTOB-MGVpx9EOOw0-XAI2B0pZiQIgd2SzfMfDugTOQurUXEZLCNtKPUJLsgbaBrOeClEZTVEzbkfJK5vbc3RrEfDq4X5zxukCJtmZK7KwNs6vbu6apXbnhZT1eRGi4vElpOZQ)
+![](https://lh5.googleusercontent.com/snDHZ9glXZD6ITqLNCH5p17nF8duKlILkpigFNYh9P30qAv5ZJcWecQDrZ80LeHg4zk8fkZHqC3diXIH0PkustDhkCC035FPb8BoyWXFXEnvt1bbsGIcvItQwETd4sYTXTujr6mzWEb9t3zx-SyBZ920OhWSIPqcyEqIe5NO4SVCUARdUCRa5COmr0y9Fg)
 
 Convert Google Docs to Markdown.
 
@@ -13,16 +13,28 @@ Now you can have awesome spell check, grammar correction, and link insert, pictu
 
 Supported features
 ---
+
 - [x] Header
 - [x] Link
 - [x] Table
 - [x] Image
 - [x] List
 
-Requirement
+How to use
 ---
 
-- Rust 1.65.0
+```bash
+docs_to_markdown 
+```
+
+Install
+---
+
+Using Rust `cargo` tool.
+
+```bash
+cargo install docs_to_markdown
+```
 
 License
 ---

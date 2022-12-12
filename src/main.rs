@@ -7,15 +7,14 @@ use select::predicate::{Class, Name};
 #[derive(Parser, Debug)]
 #[clap(author, version, about, long_about = None)]
 struct Args {
-    /// Google Docs published page
-    #[clap(long, value_parser)]
-    doc: String,
+    /// Google Docs published page link. Example: https://docs.google.com/document/d/e/<DOC_ID>/pub
+    doc_publish_link: String,
 }
 
 fn main() {
     let args = Args::parse();
 
-    let response = reqwest::blocking::get(args.doc)
+    let response = reqwest::blocking::get(args.doc_publish_link)
         .expect("Cannot get the docs. Please check docs link.")
         .text()
         .expect("Cannot extract the docs body text.");
