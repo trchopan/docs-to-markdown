@@ -46,6 +46,10 @@ fn handle_node(node: Node) -> Option<String> {
     match name {
         "h1" => Some(format!("{}\n---", node.text())),
         "h2" => Some(format!("{}\n===", node.text())),
+        "h3" => Some(format!("{} {}\n", "#".repeat(3), node.text())),
+        "h4" => Some(format!("{} {}\n", "#".repeat(4), node.text())),
+        "h5" => Some(format!("{} {}\n", "#".repeat(5), node.text())),
+        "h6" => Some(format!("{} {}\n", "#".repeat(6), node.text())),
         "p" => Some(
             node.children()
                 .into_iter()
