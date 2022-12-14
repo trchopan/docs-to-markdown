@@ -1,4 +1,4 @@
-![](https://lh6.googleusercontent.com/fS5TzPP94P7LIsX66TGJA1400AT_6DJPvppPhttfvww9E69GOQYEdHDpu_Hk_RWu6QTEWXYFpBb-DqKSnvPswe6IikQ4IhOMagoV5_j-ZXZR1yPqYGah5dXZy4fawPysX8BI2BCU_Dj0manC0hHKRUrFOmmskQzT92GylEqLuzxTPadbOBh2x3Q)
+![](https://lh3.googleusercontent.com/kq20CwBwKdT5771DpRu-WLljK-13YT4zbYAJ2bITAkGHahLL8GtMZTOeVxzj5MHK1H9LeTjb7Cfu3algrx6m3R441LwCS_bMDFKffd4eSEO9tUdc9AQoBNQNINLiZI7TixFw0vHuBQDn7FL-n_yHis_9Y2q2oiREXp7iWl6bGAN3D4Y5ODpyR_4)
 
 Convert Google Docs to Markdown.
 
@@ -35,19 +35,19 @@ How to use
 ### Create a Google Document and make your edits
 
 
-![](https://lh6.googleusercontent.com/SRBlMUGwJZy8DhLsqXG60c9JB47Zp8cMtZnyER6kIptroBD1YNk5Q0YuBU45FvsFmyrr919ONsoi-4WLqmxPLJuSVn5-6ZnVsdmpeuemLr6u5AhxE-Edo9rn3OZM9ivE0IjlCScW0uVjG1qJJQvKqFISqPz9XpbVob_dSqUoQHOX25FhIPGbrwE)
+![](https://lh4.googleusercontent.com/WGvK8J6Qonmgarbadvd6pf2e_o_mCDMwCU7TuPSJr7z0L51U0v-stCuWc22qx9sefgwfNbVdMVibfYS6Mu8Ner59HP7uaHk9jAKNT0-NINonnPX2dZ8T1GWcfBkLUzwqzrvegS-kAv0M2nDXeC1Tdi8pBVdku8V6ehnEqPn8qa14FDB3MUYphtU)
 
 ### Publish the document
 
 
-![](https://lh5.googleusercontent.com/KekGHks3O-OTD58yZYQ5T-91KdP9LxAKitt1vMoLlz2o4z7R9VpRRknr7qwvhUENelGlml7AgQcxBRoS6TTrCeAV81fRZ0Phr5Vx9Z6l5e0jVwgkPhoC6dzU45YxGCNMd8E3Dk9WcIb0hUG9g97rH5gRMQO_e-SlfNXRdHkyP0Od5awUkMTNAFY)
+![](https://lh3.googleusercontent.com/qm0zj2INrJ151Xyjh65gPO5X9xbXAbFlNd3QbfoYlLU8ZYT-sIv1P0oYC_mF1NEvnMSMtb99ESA9hr94jOtomatei9XEsfdRfOG-S3rvsdyRmh3q_WMNv1iRWGX0bJ6KOiiRBFX1pPxXEQzARTXaouMUazSRexOswJApEVsNXpk_433_U66kLVQ)
 
 ### Get the published link
 
 
-![](https://lh6.googleusercontent.com/DRpmVzFJiRldXOV3rK0s6TbqRmpMRmsfzTJrIoNkKbdNQiOHSzgAE48x1E7lND7lW6PKlhMy7bkqWZcwPmERCB_nLwPVp-MQbtQQBfFXuFaqwx_W42VouXdFX42haQYvxTmamtq9on22QNFf0td1ojAu9PZ0HUFtvS3mcCNM00QYLmyXnqlnSKs)
+![](https://lh3.googleusercontent.com/mU3fwOvOKWFvLQRFkUmtbMcp1IuGoLTkHwxiHvc8aLtDmw-iqRbycm_Uhe9w2rCYJIu09BZ06wErhEZ3r0xTA1Etzu9JXTR57lDnirtKzvvIY3vetwIb8pffaT71Px3NyW_OxjfwXA8wRh3o1iXWJq2YVYcTMK0WVPIwk4ha6mkm54D_cksXDik)
 
-### Exporting command
+### Using cli
 
 
 ```bash
@@ -59,6 +59,16 @@ docs_to_markdown <PUBLISH_LINK> > README.md
 
 # Export and copy to clipboard
 docs_to_markdown <PUBLISH_LINK> | pbcopy
+```
+
+### Using Cloudflare Worker
+
+Please use this endpoint sparingly. I’m running it on a free tier Cloudflare Worker. If you can, feel free to host your own for your convenient.
+
+```bash
+curl --request POST 'https://docs-to-markdown.chop.dev/' \
+     --header 'Content-Type: application/json' \
+     --data-raw '{"url": "<PUBLISH_LINK>"}'
 ```
 
 License
