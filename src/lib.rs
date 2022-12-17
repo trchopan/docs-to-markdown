@@ -3,9 +3,12 @@ use select::document::Document;
 use select::node::Node;
 use select::predicate::{Class, Name};
 
-pub fn parse(content: &str) -> Option<String> {
+pub fn parse(content: &str) -> Result<String, String> {
     let document = Document::from(content);
-    let found_content = document.find(Class("doc-content")).next()?;
+    let found_content = document
+        .find(Class("doc-content"))
+        .next()
+        .ok_or("Not found `doc-content`")?;
 
     let result = found_content
         .children()
@@ -19,7 +22,7 @@ pub fn parse(content: &str) -> Option<String> {
         .collect::<Vec<String>>()
         .join("\n");
 
-    Some(result)
+    Ok(result)
 }
 
 fn handle_node(node: Node) -> Option<String> {

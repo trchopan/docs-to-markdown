@@ -21,13 +21,7 @@ struct JsonRequest {
 
 #[event(fetch)]
 pub async fn main(mut req: Request, env: Env, _ctx: worker::Context) -> Result<Response> {
-    console_log!(
-        "{} {}, located at: {:?}, within: {}",
-        req.method().to_string(),
-        req.path(),
-        req.cf().coordinates().unwrap_or_default(),
-        req.cf().region().unwrap_or("unknown region".into())
-    );
+    log_request(&req);
 
     if !matches!(req.method(), Method::Post) {
         return Response::error("Method Not Allowed", 405);
@@ -36,23 +30,19 @@ pub async fn main(mut req: Request, env: Env, _ctx: worker::Context) -> Result<R
     let Ok(json) = req.json::<JsonRequest>().await else {
         return Response::error("Bad Request", 400);
     };
-    let error_fetch = format!(
-        "Cannot fetch the URL {}. Please check corret GOOGLE DOCS PUBLISHED URL.",
-        json.url
+    let error_fetch = Response::error(
+        format!(
+            "Cannot fetch the URL {}. Please check corret GOOGLE DOCS PUBLISHED URL.",
+            json.url
+        ),
+        400,
     );
-    let content = reqwest::get(json.url)
-        .await
-        .or(Err(error_fetch.clone()))?
-        .text()
-        .await
-        .or(Err(error_fetch))?;
 
-    let Some(result) = parse(&content) else {
-        return Response::error(vec![
-            "Not found doc-content.",
-            "Please check that the link is for a Google Docs published to the Web page.",
-        ].join(" "), 400);
-    };
+    let Ok(response) = reqwest::get(json.url).await else { return error_fetch; };
+    let Ok(content) = response.text().await else { return error_fetch; };
 
-    Response::ok(result)
+    match parse(&content) {
+        Err(err) => Response::error(err, 400),
+        Ok(result) => Response::ok(result),
+    }
 }
