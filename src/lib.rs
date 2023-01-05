@@ -26,14 +26,15 @@ pub fn parse(content: &str) -> Result<String, String> {
 }
 
 fn handle_node(node: Node) -> Option<String> {
-    let Some(name) = node.name() else { return None;};
+    let Some(name) = node.name() else { return None; };
+    let header_format = |n: usize| Some(format!("{} {}", "#".repeat(n), node.text()));
     match name {
-        "h1" => Some(format!("{}\n---", node.text())),
-        "h2" => Some(format!("{}\n===", node.text())),
-        "h3" => Some(format!("{} {}", "#".repeat(3), node.text())),
-        "h4" => Some(format!("{} {}", "#".repeat(4), node.text())),
-        "h5" => Some(format!("{} {}", "#".repeat(5), node.text())),
-        "h6" => Some(format!("{} {}", "#".repeat(6), node.text())),
+        "h1" => header_format(1),
+        "h2" => header_format(2),
+        "h3" => header_format(3),
+        "h4" => header_format(4),
+        "h5" => header_format(5),
+        "h6" => header_format(6),
         "p" => Some(
             node.children()
                 .into_iter()
