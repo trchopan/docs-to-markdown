@@ -27,18 +27,21 @@ pub async fn main(mut req: Request, env: Env, _ctx: worker::Context) -> Result<R
         return Response::error("Method Not Allowed", 405);
     }
 
-    let Ok(json) = req.json::<JsonRequest>().await else {
+    let body_text = req.text().await.unwrap();
+
+    let Ok(body_json) = serde_json::from_str::<JsonRequest>(&body_text) else {
+        console_error!("request body: {}", body_text);
         return Response::error("Bad Request", 400);
     };
     let error_fetch = Response::error(
         format!(
             "Cannot fetch the URL {}. Please check corret GOOGLE DOCS PUBLISHED URL.",
-            json.url
+            body_json.url
         ),
         400,
     );
 
-    let Ok(response) = reqwest::get(json.url).await else { return error_fetch; };
+    let Ok(response) = reqwest::get(body_json.url).await else { return error_fetch; };
     let Ok(content) = response.text().await else { return error_fetch; };
 
     match parse(&content) {

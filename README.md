@@ -1,9 +1,10 @@
-![](https://lh3.googleusercontent.com/kq20CwBwKdT5771DpRu-WLljK-13YT4zbYAJ2bITAkGHahLL8GtMZTOeVxzj5MHK1H9LeTjb7Cfu3algrx6m3R441LwCS_bMDFKffd4eSEO9tUdc9AQoBNQNINLiZI7TixFw0vHuBQDn7FL-n_yHis_9Y2q2oiREXp7iWl6bGAN3D4Y5ODpyR_4)
+![](https://lh4.googleusercontent.com/lpu7gvVra5dOzvga7hyaIpQ0o8DUssWsq1aC45wguXiCAzalhKkigchrGP2Pd6bine4HKLkf96Fwe6RVZGIspjQ6Rfay6MywKXh_c-KSZrB5-otAy1u2fUeAvTAQKvAz3IGKv0wJKneyvUui)
+
+
 
 Convert Google Docs to Markdown.
 
-Docs to Markdown
----
+# Docs to Markdown
 
 Do you like the editing capability of Google Docs and wish I can edit a README.md with it?
 
@@ -11,8 +12,7 @@ This tool will help you convert a published Google Docs to Markdown easily. In f
 
 Now you can have awesome spell check, grammar correction, and link insert, picture view, tables, and many more.
 
-Supported features
----
+# Supported features
 
 - [x] Header
 - [x] Link
@@ -20,8 +20,7 @@ Supported features
 - [x] Image
 - [x] List
 
-Install
----
+# Install
 
 Using Rust `cargo` tool.
 
@@ -29,26 +28,21 @@ Using Rust `cargo` tool.
 cargo install docs_to_markdown
 ```
 
-How to use
----
+# How to use
 
 ### Create a Google Document and make your edits
 
-
-![](https://lh4.googleusercontent.com/WGvK8J6Qonmgarbadvd6pf2e_o_mCDMwCU7TuPSJr7z0L51U0v-stCuWc22qx9sefgwfNbVdMVibfYS6Mu8Ner59HP7uaHk9jAKNT0-NINonnPX2dZ8T1GWcfBkLUzwqzrvegS-kAv0M2nDXeC1Tdi8pBVdku8V6ehnEqPn8qa14FDB3MUYphtU)
+![](https://lh4.googleusercontent.com/oQ4zaonCAy55ZH0ABSmEGx5ndoPjAXJ4IN_B7mrphjRmS4Hqd06auyvt0keb4x_DKOCpyThJIVFdPk7M4fMLEQCpEYiMgEEJn9bmQf5gxR6cipRntfucuyWbtgDDW3KexxV7i9aJ7OmGc7Jp)
 
 ### Publish the document
 
-
-![](https://lh3.googleusercontent.com/qm0zj2INrJ151Xyjh65gPO5X9xbXAbFlNd3QbfoYlLU8ZYT-sIv1P0oYC_mF1NEvnMSMtb99ESA9hr94jOtomatei9XEsfdRfOG-S3rvsdyRmh3q_WMNv1iRWGX0bJ6KOiiRBFX1pPxXEQzARTXaouMUazSRexOswJApEVsNXpk_433_U66kLVQ)
+![](https://lh4.googleusercontent.com/i07GH67fmWleSfRNPTIgqGQ6CnC3K8i2jVLJrhZFO-q-Xb26KlX2lTiDQQLfQhMSlPuhVWPaST24rNvyWbLeoHVjKuzV00SnmomcqLaRGbFYwByqwPrcXTSO3OSj0g-Lm7tqFFJbkxlT5ZFf)
 
 ### Get the published link
 
-
-![](https://lh3.googleusercontent.com/mU3fwOvOKWFvLQRFkUmtbMcp1IuGoLTkHwxiHvc8aLtDmw-iqRbycm_Uhe9w2rCYJIu09BZ06wErhEZ3r0xTA1Etzu9JXTR57lDnirtKzvvIY3vetwIb8pffaT71Px3NyW_OxjfwXA8wRh3o1iXWJq2YVYcTMK0WVPIwk4ha6mkm54D_cksXDik)
+![](https://lh5.googleusercontent.com/ddE5kYhMeRi3BgW8_LL4_76Ygij098QYnkc6HpyFQlEuXOJpUyhLY-bERGynDL-Pq-lWYl4V3HxgnvjKtK7eFczd44Baf3iQDyRs55JFdB1WMdozOdf4T6WPNBBle3bulae86I_jFNlL1DHV)
 
 ### Using cli
-
 
 ```bash
 # Export to output
@@ -63,16 +57,15 @@ docs_to_markdown <PUBLISH_LINK> | pbcopy
 
 ### Using Cloudflare Worker
 
-Please use this endpoint sparingly. I’m running it on a free tier Cloudflare Worker. If you can, feel free to host your own for your convenient.
+Please use this endpoint sparingly. I’m running it on a free tier Cloudflare Worker. If you can, feel free to host your own for your convenience.
 
 ```bash
 curl --request POST 'https://docs-to-markdown.chop.dev/' \
      --header 'Content-Type: application/json' \
-     --data-raw '{"url": "<PUBLISH_LINK>"}'
+     --data-raw "{\"url\": \"$PUBLISH_LINK\"}"
 ```
 
-License
----
+# License
 
 [MIT](https://opensource.org/licenses/MIT)
 

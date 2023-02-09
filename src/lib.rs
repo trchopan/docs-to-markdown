@@ -10,7 +10,7 @@ pub fn parse(content: &str) -> Result<String, String> {
         .next()
         .ok_or("Not found `doc-content`")?;
 
-    let result = found_content
+    let result: Vec<String> = found_content
         .children()
         .into_iter()
         .map(handle_node)
@@ -19,8 +19,9 @@ pub fn parse(content: &str) -> Result<String, String> {
             Some(s) => s,
             None => "".to_string(),
         })
-        .collect::<Vec<String>>()
-        .join("\n");
+        .collect();
+
+    let result = insert_newline(result);
 
     Ok(result)
 }
@@ -95,4 +96,23 @@ fn handle_table(table: Node) -> String {
         }
     });
     table_md
+}
+
+fn insert_newline(s: Vec<String>) -> String {
+    let mut in_code = false;
+    let result: Vec<String> = s
+        .iter()
+        .map(|ss| -> String {
+            if ss.contains("```") {
+                in_code = !in_code;
+            }
+            if in_code {
+                ss.to_owned()
+            } else {
+                ss.to_owned() + "\n"
+            }
+        })
+        .collect();
+
+    result.join("\n")
 }
