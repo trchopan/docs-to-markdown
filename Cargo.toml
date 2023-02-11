@@ -1,6 +1,6 @@
 [package]
 name = "docs_to_markdown"
-version = "0.1.4"
+version = "0.1.5"
 authors = ["Chop Tr <m@chop.dev>"]
 homepage = "https://github.com/trchopan/docs-to-markdown"
 repository = "https://github.com/trchopan/docs-to-markdown.git"
