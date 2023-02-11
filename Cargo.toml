@@ -15,9 +15,9 @@ edition = "2021"
 
 [dependencies]
 clap = { version = "4.0.29", features = ["derive"] }
-regex = "1.7.0"
 reqwest = {version = "0.11.13", features = ["blocking"]}
 select = "0.6.0"
+url = "2.3.1"
 
 [workspace]
 exclude = ["worker"]

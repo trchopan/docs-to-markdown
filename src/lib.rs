@@ -1,7 +1,7 @@
-use regex::Regex;
 use select::document::Document;
 use select::node::Node;
 use select::predicate::{Class, Name};
+use url::{form_urlencoded, Url};
 
 pub fn parse(content: &str) -> Result<String, String> {
     let document = Document::from(content);
@@ -61,12 +61,25 @@ fn handle_span(node: Node) -> String {
             let Some(inner_name) = inner.name() else { return node.text(); };
             match inner_name {
                 "a" => {
-                    let Some(href) = inner.attr("href") else { return "".to_string();};
-                    // Remove Google redirect link
-                    let extract_link_regex =
-                        Regex::new(r"(?m)https://www\.google\.com/url\?q=(.*?)&sa.*$").unwrap();
-                    let href = extract_link_regex.replace_all(href, "$1");
-                    return format!("[{}]({})", inner.text(), href);
+                    let href: Option<String> =
+                        inner.attr("href").and_then(|f| match Url::parse(f) {
+                            Ok(u) => {
+                                form_urlencoded::parse(u.query().unwrap_or_default().as_bytes())
+                                    .find_map(|(key, val)| {
+                                        if key == "q" {
+                                            Some(val.to_string())
+                                        } else {
+                                            None
+                                        }
+                                    })
+                            }
+                            Err(_) => None,
+                        });
+                    format!(
+                        "[{}]({})",
+                        inner.text(),
+                        href.unwrap_or_else(|| "cannot parse google link".to_string())
+                    )
                 }
                 "img" => format!("![]({})", inner.attr("src").unwrap()),
                 _ => inner.text(),
@@ -103,7 +116,7 @@ fn insert_newline(s: Vec<String>) -> String {
     let result: Vec<String> = s
         .iter()
         .map(|ss| -> String {
-            if ss.contains("```") {
+            if ss.contains("```") || ss.contains("+++") {
                 in_code = !in_code;
             }
             if in_code {
