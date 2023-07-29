@@ -14,7 +14,6 @@ pub fn parse(content: &str) -> Result<String, String> {
         .children()
         .into_iter()
         .map(handle_node)
-        .filter(|s| s.is_some())
         .map(|s| match s {
             Some(s) => s,
             None => "".to_string(),
